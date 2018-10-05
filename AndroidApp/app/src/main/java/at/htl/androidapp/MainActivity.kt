@@ -17,22 +17,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         thread {
             while (true) {
-                Jsoup.connect(path).header("Host", "brickseek.com")
-                        .header("Connection", "keep-alive")
-                        .header("Cache-Control", "max-age=0")
-                        .header("Origin", "https://brickseek.com/")
-                        .header("Upgrade-Insecure-Requests", "1")
-                        .header("Content-Type", "application/x-www-form-urlencoded")
-                        .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
-                        .referrer("http://brickseek.com/walmart-inventory-checker/")
-                        .header("Accept-Encoding", "gzip, deflate, br")
-                        .header("Accept-Language", "en-US,en;q=0.8").get().run {
+                Jsoup.connect(path)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .get().run {
 
                             // val html = this.outerHtml()
                             val element = this.select("#fer_video").select("source").attr("src")
 
                             runOnUiThread {
                                 videoView2.setVideoURI(Uri.parse(element))
+                                videoView2.start()
                             }
                         }
 
